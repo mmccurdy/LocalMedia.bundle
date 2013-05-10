@@ -37,9 +37,11 @@ def findAssests(metadata, paths, type, part = None):
   if type == 'season':
     search_tuples += [['season(-|0|\s)?%s[-a-z]?(-poster)?' % metadata.index, metadata.posters, config.IMAGE_EXTS, False]]
     search_tuples += [['season(-|0|\s)?%s-banner[-a-z]?' % metadata.index, metadata.banners, config.IMAGE_EXTS, False]]
+    search_tuples += [['season(-|0|\s)?%s-(fanart|art|background|backdrop)[-a-z]?' % metadata.index, metadata.art, config.IMAGE_EXTS, False]]
     if int(metadata.index) == 0: # Season zero, also look for Frodo-compliant 'specials' artwork.
       search_tuples += [['season-specials-poster', metadata.posters, config.IMAGE_EXTS, False]]
       search_tuples += [['season-specials-banner', metadata.banners, config.IMAGE_EXTS, False]]
+      search_tuples += [['season-specials-(fanart|art|background|backdrop)[-a-z]?', metadata.art, config.IMAGE_EXTS, False]]
   elif type == 'show':
     search_tuples += [['(show|poster|folder)-?[0-9]?', metadata.posters, config.IMAGE_EXTS, False]]
     search_tuples += [['banner-?[0-9]?', metadata.banners, config.IMAGE_EXTS, False]]
@@ -75,7 +77,7 @@ def findAssests(metadata, paths, type, part = None):
               Log('  Local asset added: %s (%s)', path_files[file_path], media_hash)
           else:
             Log('Skipping file %s because there are %d media files.', file_path, total_media_files)
-              
+    
     Log('Found %d valid things for pattern %s (ext: %s)', len(valid_keys), pattern, str(extensions))
     media_list.validate_keys(valid_keys)
 
